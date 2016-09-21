@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:TempCheckMobile.Controls;assembly=TempCheckMobile"
+             xmlns:converters="clr-namespace:TempCheckMobile.Converters;assembly=TempCheckMobile"
+             x:Class="TempCheckMobile.Views.MainPage"
+             NavigationPage.HasNavigationBar="false">
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+      <converters:CelsiusStringConverter x:Key="CelsiusStringConverter" />
+    </ResourceDictionary>
+  </ContentPage.Resources>
+
+  <ContentPage.Content>
+    <controls:GradientContentView Orientation="Vertical" StartColor="#1AD6FD" EndColor="#1D62F0">
+
+      <StackLayout
+        VerticalOptions="FillAndExpand"
+        HorizontalOptions="FillAndExpand">
+
+        <Label
+          Text="TempCheck"
+          FontSize="60"
+          HorizontalTextAlignment="Center"
+          VerticalOptions="Start"/>
+        
+        <Grid
+          WidthRequest="200"
+          HeightRequest="200"
+          VerticalOptions="CenterAndExpand"
+          HorizontalOptions="CenterAndExpand">
+
+          <controls:ShapeView
+            ShapeType="Circle"
+            Color="#AAFFFFFF"/>
+
+          <Label
+            Text="{Binding Temperature, Converter={StaticResource CelsiusStringConverter}}"
+            TextColor="#FFFFFF"
+            FontSize="40"
+            FontAttributes="Bold"
+            HorizontalTextAlignment="Center"
+            VerticalTextAlignment="Center"/>
+        </Grid>
+
+        <Label
+          Text="{Binding Timestamp, StringFormat='{}{0:hh\\:mm}'}"
+          HorizontalTextAlignment="Center"/>
+        
+        <ActivityIndicator 
+          Color="Red" 
+          IsRunning="{Binding IsMonitoring}" />
+        
+        <Button
+          Text="Start"
+          IsVisible="{Binding IsMonitoring, Converter={StaticResource InverseBoolConverter}}"
+          Command="{Binding StartCommand}"
+          VerticalOptions="End"/>
+        <Button
+          Text="Stop"
+          IsVisible="{Binding IsMonitoring}"
+          Command="{Binding StopCommand}"
+          VerticalOptions="End"/>
+      </StackLayout>
+    </controls:GradientContentView>
+  </ContentPage.Content>
+</ContentPage>
